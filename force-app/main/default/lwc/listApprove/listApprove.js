@@ -1,5 +1,5 @@
-import { LightningElement } from 'lwc';
-import generateData from './generateData';
+import { LightningElement, wire} from 'lwc';
+import getApproveData from '@salesforce/apex/getData.GetApproveData';
 
 const actions = [
     { label: 'Show details', name: 'show_details' },
@@ -7,11 +7,14 @@ const actions = [
 ];
 
 const columns = [
-    { label: 'Name', fieldName: 'name' },
-    { label: 'Website', fieldName: 'website', type: 'url' },
-    { label: 'Phone', fieldName: 'phone', type: 'phone' },
-    { label: 'Balance', fieldName: 'amount', type: 'currency' },
-    { label: 'Close At', fieldName: 'closeAt', type: 'date' },
+    { label: 'Id', fieldName: 'Id' },
+    { label: 'ProcessDefinitionName', fieldName: 'ProcessDefinitionName' },
+    { label: 'DeveloperName', fieldName: 'DeveloperName' },
+    { label: 'Name', fieldName: 'ActorName' },
+    // { label: 'Website', fieldName: 'website', type: 'url' },
+    // { label: 'Phone', fieldName: 'phone', type: 'phone' },
+    // { label: 'Balance', fieldName: 'amount', type: 'currency' },
+    // { label: 'Close At', fieldName: 'closeAt', type: 'date' },
     {
         type: 'action',
         typeAttributes: { rowActions: actions },
@@ -19,13 +22,16 @@ const columns = [
 ];
 
 export default class DatatableWithRowActions extends LightningElement {
-    data = [];
+
+    @wire(getApproveData)
+    approveData;
+
     columns = columns;
     record = {};
 
-    connectedCallback() {
-        this.data = generateData({ amountOfRecords: 100 });
-    }
+    // connectedCallback() {
+    //     this.data = generateData({ amountOfRecords: 100 });
+    // }
 
     handleRowAction(event) {
         const actionName = event.detail.action.name;
