@@ -7,18 +7,18 @@ const actions = [
 ];
 
 const columns = [
-    { label: 'Id', fieldName: 'Id' },
-    { label: 'ProcessDefinitionName', fieldName: 'ProcessDefinitionName' },
-    { label: 'DeveloperName', fieldName: 'DeveloperName' },
-    { label: 'Name', fieldName: 'ActorName' },
-    // { label: 'Website', fieldName: 'website', type: 'url' },
-    // { label: 'Phone', fieldName: 'phone', type: 'phone' },
-    // { label: 'Balance', fieldName: 'amount', type: 'currency' },
-    // { label: 'Close At', fieldName: 'closeAt', type: 'date' },
+    { label: '関連先', fieldName: 'RecordUrl', type: 'url',
+        typeAttributes: { label: { fieldName: 'TargetObjectName' }, tooltip: { fieldName: 'TargetObjectName' } } },    
+    { label: 'プロセス名', fieldName: 'ProcessDefinitionName' },
+    { label: '種別', fieldName: 'Type' },
+    { label: '最新の承認者', fieldName: 'ActorName' },
+    { label: '登録日', fieldName: 'CreatedDate' },
     {
         type: 'action',
         typeAttributes: { rowActions: actions },
     },
+
+    
 ];
 
 export default class DatatableWithRowActions extends LightningElement {
@@ -28,6 +28,7 @@ export default class DatatableWithRowActions extends LightningElement {
 
     columns = columns;
     record = {};
+    rowOffset = 0;    
 
     // connectedCallback() {
     //     this.data = generateData({ amountOfRecords: 100 });

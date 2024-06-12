@@ -3,6 +3,9 @@
         <lightning-datatable
                 key-field="id"
                 data={approveData.data}
+                show-row-number-column
+                row-number-offset={rowOffset}
+                hide-checkbox-column                
                 columns={columns}
                 onrowaction={handleRowAction}>
         </lightning-datatable>

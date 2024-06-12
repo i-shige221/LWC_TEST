@@ -23,7 +23,7 @@ public with sharing class GetData {
         pendingApprovals = [
 SELECT Id, ProcessInstance.ProcessDefinition.Name,
 	ProcessInstance.ProcessDefinition.DeveloperName, StepNodeId, OriginalActor.Name, Actor.Name, Comments,
-	CreatedDate, StepStatus
+	CreatedDate, StepStatus, ProcessInstance.TargetObject.Id, ProcessInstance.TargetObject.Name
 FROM ProcessInstanceStep
 //             SELECT Id, ProcessInstanceId, OriginalActorId, ActorId, Actor.Name, ProcessInstance.TargetObjectId
 //             FROM ProcessInstanceWorkitem
@@ -40,8 +40,13 @@ FROM ProcessInstanceStep
             Map<String, Object> myMap = new Map<String, Object>();
             myMap.put('Id', itm.Id);
             myMap.put('ProcessDefinitionName', itm.ProcessInstance.ProcessDefinition.Name);
-            myMap.put('DeveloperName', itm.ProcessInstance.ProcessDefinition.DeveloperName);
+            ID objectId = itm.ProcessInstance.TargetObject.Id;
+            string url = '/lightning/r/'+ itm.Id + '/view';
+            myMap.put('RecordUrl', url);
+            myMap.put('TargetObjectName', itm.ProcessInstance.TargetObject.Name);
+            myMap.put('Type', '申請');
             myMap.put('ActorName', itm.Actor.Name);
+            myMap.put('CreatedDate', itm.CreatedDate.format('yyyy/MM/dd HH:mm'));
             myData.add(myMap);
         }
 
