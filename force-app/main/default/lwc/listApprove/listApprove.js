@@ -1,5 +1,6 @@
 import { LightningElement, wire} from 'lwc';
 import getApproveData from '@salesforce/apex/GetData.GetApproveData';
+import approveUpdate from '@salesforce/apex/approveController.approveUpdate';
 import { refreshApex } from '@salesforce/apex';
 
 const actions = [
@@ -27,7 +28,7 @@ export default class DatatableWithRowActions extends LightningElement {
     @wire(getApproveData,{})
     approveData({error, data}){
         if (data){
-            console.log("data");
+            console.log("approveData");
             console.log(data);
             this.appdata = data;
         }
@@ -48,21 +49,21 @@ export default class DatatableWithRowActions extends LightningElement {
         switch (actionName) {
             case 'approve':
 
-            console.log("aaaa");
-            console.log(this.appdata);
+            console.log("handleRowAction");
+            
+            // TODO:申請処理
+            const strId = row.Id;
+            console.log(strId);
+                
+                approveUpdate({id : strId})
+                .then(strRet => {
+                    console.log(strRet);
+                    // 申請完了したらDataTable更新
+                    return refreshApex(this.approveData);
 
-                // TODO:申請処理
-                // approveUpdate({ 
-                //     // 引数として申請対象となるID
-
-                // })
-                // .then(strRet => {
-                //     // 申請完了したらDataTable更新
-                //     return refreshApex(this.approveData);
-
-                // })
-                // .catch(error => {
-                // });
+                })
+                .catch(error => {
+                });
         
                 break;
             default:
